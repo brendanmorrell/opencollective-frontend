@@ -14,6 +14,7 @@ import {
 import CreditCardInactive from '../icons/CreditCardInactive';
 
 export const NEW_CREDIT_CARD_KEY = 'newCreditCard';
+export const BRAINTREE_KEY = 'braintree';
 
 export const generatePaymentMethodOptions = (paymentMethods, stepProfile, stepDetails, stepSummary, collective) => {
   const supportedPaymentMethods = get(collective, 'host.supportedPaymentMethods', []);
@@ -111,6 +112,14 @@ export const generatePaymentMethodOptions = (paymentMethods, stepProfile, stepDe
             defaultMessage="Instructions to make a transfer will be given on the next page."
           />
         ),
+      });
+    }
+
+    // TODO: Braintree
+    if (true) {
+      uniquePMs.push({
+        key: 'braintree',
+        title: 'PayPal / Venmo / Google Pay / Apple Pay',
       });
     }
   }

@@ -18,7 +18,8 @@ import StyledRadioList from '../StyledRadioList';
 import { P } from '../Text';
 
 import BlockedContributorMessage from './BlockedContributorMessage';
-import { generatePaymentMethodOptions, NEW_CREDIT_CARD_KEY } from './utils';
+import BraintreePaymentForm from './BraintreePaymentForm';
+import { BRAINTREE_KEY, generatePaymentMethodOptions, NEW_CREDIT_CARD_KEY } from './utils';
 
 const PaymentMethodBox = styled.div`
   display: flex;
@@ -30,14 +31,6 @@ const PaymentMethodBox = styled.div`
     props.index &&
     css`
       border-top: 1px solid ${themeGet('colors.black.200')};
-    `}
-
-  ${props =>
-    !props.disabled &&
-    css`
-      &:hover {
-        background: ${themeGet('colors.black.50')};
-      }
     `}
 `;
 
@@ -97,6 +90,7 @@ const StepPayment = ({
   onChange,
   hideCreditCardPostalCode,
   onNewCardFormReady,
+  setBraintree,
 }) => {
   // GraphQL mutations and queries
   const { loading, data, error } = useQuery(paymentMethodsQuery, {
@@ -191,6 +185,9 @@ const StepPayment = ({
                   {value.instructions}
                 </Box>
               )}
+              {value.key === BRAINTREE_KEY && checked && (
+                <BraintreePaymentForm stepDetails={stepDetails} onReady={setBraintree} />
+              )}
             </PaymentMethodBox>
           )}
         </StyledRadioList>
@@ -207,6 +204,7 @@ StepPayment.propTypes = {
   stepSummary: PropTypes.object,
   onChange: PropTypes.func,
   onNewCardFormReady: PropTypes.func,
+  setBraintree: PropTypes.func,
   hideCreditCardPostalCode: PropTypes.bool,
 };
 
